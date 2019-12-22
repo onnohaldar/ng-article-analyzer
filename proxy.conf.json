@@ -1,0 +1,6 @@
+{
+  "/scholar": {
+    "target": "https://scholar.google.nl",
+    "secure": true
+  }
+}
