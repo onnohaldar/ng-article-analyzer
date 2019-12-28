@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ng-mendeley": [
+        "dist/ng-mendeley"
+      ],
+      "ng-mendeley/*": [
+        "dist/ng-mendeley/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

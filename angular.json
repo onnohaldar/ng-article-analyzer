@@ -124,6 +124,41 @@
           }
         }
       }
+    },
+    "ng-mendeley": {
+      "projectType": "library",
+      "root": "projects/ng-mendeley",
+      "sourceRoot": "projects/ng-mendeley/src",
+      "prefix": "mdl",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ng-mendeley/tsconfig.lib.json",
+            "project": "projects/ng-mendeley/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-mendeley/src/test.ts",
+            "tsConfig": "projects/ng-mendeley/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-mendeley/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-mendeley/tsconfig.lib.json",
+              "projects/ng-mendeley/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "ng-article-analyzer"
 }
