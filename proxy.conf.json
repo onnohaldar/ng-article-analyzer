@@ -1,6 +1,11 @@
 {
-  "/scholar": {
-    "target": "https://scholar.google.nl",
-    "secure": true
+  "/scholar/*": {
+    "target": "http://scholar.google.nl",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/scholar": ""
+    }
   }
 }
