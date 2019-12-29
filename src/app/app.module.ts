@@ -10,6 +10,8 @@ import { NgMendeleyModule } from 'ng-mendeley';
 // Application
 import { AppMaterialModule } from './app-material.module';
 import { AppRoutingModule } from './app-routing.module';
+import { OverviewModule } from './overview';
+import { PageNotFoundModule } from './page-not-found';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -23,6 +25,8 @@ import { AppComponent } from './app.component';
     NgMendeleyModule,
     AppMaterialModule,
     AppRoutingModule,
+    OverviewModule,
+    PageNotFoundModule
   ],
   providers: [],
   bootstrap: [AppComponent]
