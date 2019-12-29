@@ -11,6 +11,7 @@ import { NgMendeleyModule } from 'ng-mendeley';
 import { AppMaterialModule } from './app-material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { OverviewModule } from './overview';
+import { MendeleyModule } from './mendeley';
 import { PageNotFoundModule } from './page-not-found';
 import { AppComponent } from './app.component';
 
@@ -26,6 +27,7 @@ import { AppComponent } from './app.component';
     AppMaterialModule,
     AppRoutingModule,
     OverviewModule,
+    MendeleyModule,
     PageNotFoundModule
   ],
   providers: [],

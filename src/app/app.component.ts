@@ -8,6 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'ng-article-analyzer';
 
+  navLinks = [
+    { path: '', label: 'Article Analyzer Overview'}
+  ];
+  activeLink = this.navLinks[0];
+
   constructor(/* private scholar: ScholarService */) {}
 
   ngOnInit() {
