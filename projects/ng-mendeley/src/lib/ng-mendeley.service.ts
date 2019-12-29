@@ -26,8 +26,8 @@ export class NgMendeleyService {
     return 'Bearer ' + this.authParms.accessToken;
   }
 
-  get(method: string, returnType: string, id?: string, params?: {}) {
-    return this.http.get(this.buildUrl(method),
+  get<T>(method: string, returnType: string, id?: string, params?: {}) {
+    return this.http.get<T>(this.buildUrl(method),
       { headers: {
         Authorization: this.authToken,
         Accept: 'application/vnd.mendeley-' + returnType
@@ -35,8 +35,11 @@ export class NgMendeleyService {
       params });
   }
 
+  /**
+   * <https://dev.mendeley.com/methods/#retrieve-all-user-roles>
+   */
   get userRoles() {
-    return this.get('user_roles', 'user-role.1+json');
+    return this.get<{ description: string }[]>('user_roles', 'user-role.1+json');
   }
 
 }
