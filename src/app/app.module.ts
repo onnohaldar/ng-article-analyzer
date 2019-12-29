@@ -25,10 +25,10 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     NgMendeleyModule,
     AppMaterialModule,
-    AppRoutingModule,
     OverviewModule,
     MendeleyModule,
-    PageNotFoundModule
+    PageNotFoundModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

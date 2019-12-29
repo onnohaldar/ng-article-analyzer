@@ -9,7 +9,8 @@ export class AppComponent implements OnInit {
   title = 'ng-article-analyzer';
 
   navLinks = [
-    { path: '', label: 'Article Analyzer Overview'}
+    { path: '', label: 'Article Analyzer Overview'},
+    { path: 'mendeley', label: 'Mendeley Analyzer' }
   ];
   activeLink = this.navLinks[0];
 
