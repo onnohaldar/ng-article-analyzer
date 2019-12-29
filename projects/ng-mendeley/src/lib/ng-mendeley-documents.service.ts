@@ -1,9 +1,22 @@
+// Angular
 import { Injectable } from '@angular/core';
+
+// Libraries
+import { NgMendeleyService } from './ng-mendeley.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NgMendeleyDocumentsService {
 
-  constructor() { }
+  constructor(private service: NgMendeleyService) { }
+
+
+  /**
+   * list: <https://dev.mendeley.com/methods/#retrieving-documents>
+   */
+  get(id?: string, params?: { view: 'bib' | 'client' | 'tags' | 'patent' | 'all' }) {
+    return this.service.get('documents', 'document.1+json', id, params);
+  }
+
 }

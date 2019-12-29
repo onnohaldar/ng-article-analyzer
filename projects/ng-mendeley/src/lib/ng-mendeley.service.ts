@@ -1,6 +1,6 @@
 // Angular
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class NgMendeleyService {
     return 'Bearer ' + this.authParms.accessToken;
   }
 
-  get(method: string, returnType: string, id?: string, params?: HttpParams) {
+  get(method: string, returnType: string, id?: string, params?: {}) {
     return this.http.get(this.buildUrl(method),
       { headers: {
         Authorization: this.authToken,
