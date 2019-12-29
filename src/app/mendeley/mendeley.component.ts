@@ -1,4 +1,8 @@
+// Angular
 import { Component, OnInit } from '@angular/core';
+
+// Libraries
+import { NgMendeleyService } from 'ng-mendeley';
 
 @Component({
   selector: 'app-mendeley',
@@ -7,9 +11,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MendeleyComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: NgMendeleyService) { }
 
   ngOnInit() {
+    this.service.accessToken = 'MSwxNTc3NjQyNTEwNTE2LDU2MTMxMjY3MSwxMDI4LGFsbCwsLDg3MDAyNjllNzQzZjc0NDE3YTk5OWJkMjU1ZTMzMGE3NjdhNmd4cnFiLGYxZTRlZTM4LWEyZjUtMzQ2Yy04YTViLWExNzE1MjYwOThkMCxhUU92Q1dkWkVsQm5PbGRIQ0VCd1BMekNVb00';
+    this.service.userRoles.subscribe(
+      roles => console.log(roles),
+      error => console.log(error),
+      () => console.log('userRoles done!')
+    );
   }
 
 }
