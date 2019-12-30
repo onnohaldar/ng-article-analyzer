@@ -23,7 +23,7 @@ export class MendeleyComponent implements OnInit {
       () => console.log('userRoles done!')
     );
     this.documentsService.get('877458db-9425-3cbc-8daf-2574ea07f162').subscribe(
-      docs => console.log(docs),
+      doc => console.log(doc),
       error => console.log(error),
       () => console.log('getDocs done!')
     );
