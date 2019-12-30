@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 
 // Libraries
 import { NgMendeleyService, NgMendeleyDocumentsService, NgMendeleyFoldersService } from 'ng-mendeley';

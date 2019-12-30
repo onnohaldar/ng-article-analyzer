@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  MatButtonModule,
+  MatTreeModule
+} from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
-
+const matModules = [
+    FlexLayoutModule,
+    MatButtonModule,
+    MatTreeModule
+];
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
+    imports: [matModules],
+    exports: [matModules]
 })
 export class MendeleyMaterialModule { }
