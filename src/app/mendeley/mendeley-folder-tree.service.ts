@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Rxjs
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject } from 'rxjs';
 
 /**
  * Node for to-do item
@@ -48,7 +48,7 @@ const TREE_DATA = {
 @Injectable({
   providedIn: 'root'
 })
-export class MendeleyFoldersService {
+export class MendeleyFolderTreeService {
   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
 
   get data(): TodoItemNode[] { return this.dataChange.value; }
