@@ -7,7 +7,7 @@ import { NgMendeleyService } from './ng-mendeley.service';
 /**
  * <https://dev.mendeley.com/methods/#folder-attributes>
  */
-interface Folder {
+export interface MendeleyFolder {
   id: string;	// id of the folder
   name: string;	// name of the folder
   parent_id?: string;	// id of the parent folder
@@ -28,7 +28,7 @@ export class NgMendeleyFoldersService {
    * Mendely API method: <https://dev.mendeley.com/methods/#list-all-folders>
    */
   listAllFolders() {
-    return this.service.get<Folder[]>('folders', 'folder.1+json');
+    return this.service.get<MendeleyFolder[]>('folders', 'folder.1+json');
   }
 
 }
