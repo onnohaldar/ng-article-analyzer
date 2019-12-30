@@ -34,18 +34,16 @@ export class NgMendeleyDocumentsService {
   }
 
   /**
-   * Mendely API method: retrieve documents
-   * @see <https://dev.mendeley.com/methods/#retrieving-documents>
+   * Mendely API method: <https://dev.mendeley.com/methods/#retrieving-documents>
    */
-  retrieveDocs(params?: DocumentParams) {
+  retrieveDocuments(params?: DocumentParams) {
     return this.get<Document[]>(undefined, params);
   }
 
   /**
-   * Mendely API method: retrieve a document
-   * @see <https://dev.mendeley.com/methods/#retrieving-a-document>
+   * Mendely API method: <https://dev.mendeley.com/methods/#retrieving-a-document>
    */
-  retrieveADoc(id: string, params?: DocumentParams) {
+  retrieveADocument(id: string, params?: DocumentParams) {
     return this.get<Document>(id, params);
   }
 

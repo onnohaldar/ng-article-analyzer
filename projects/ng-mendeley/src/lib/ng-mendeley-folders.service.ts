@@ -25,10 +25,9 @@ export class NgMendeleyFoldersService {
   constructor(private service: NgMendeleyService) { }
 
   /**
-   * List all folders
-   * @see <https://dev.mendeley.com/methods/#list-all-folders>
+   * Mendely API method: <https://dev.mendeley.com/methods/#list-all-folders>
    */
-  get() {
+  listAllFolders() {
     return this.service.get<Folder[]>('folders', 'folder.1+json');
   }
 

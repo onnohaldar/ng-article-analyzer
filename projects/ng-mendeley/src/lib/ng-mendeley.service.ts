@@ -2,6 +2,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+interface UserRole { description: string; }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,10 +38,11 @@ export class NgMendeleyService {
   }
 
   /**
-   * <https://dev.mendeley.com/methods/#retrieve-all-user-roles>
+   * Mendely API method
+   * @see <https://dev.mendeley.com/methods/#retrieve-all-user-roles>
    */
-  get userRoles() {
-    return this.get<{ description: string }[]>('user_roles', 'user-role.1+json');
+  retrieveAllUserRoles() {
+    return this.get<UserRole[]>('user_roles', 'user-role.1+json');
   }
 
 }
