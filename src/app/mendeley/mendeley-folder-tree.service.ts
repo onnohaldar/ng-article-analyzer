@@ -59,8 +59,11 @@ export class MendeleyFolderTreeService {
   initialize() {
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
-    this.buildTreeData().subscribe(
-      treeData => console.log(treeData)
+    this.service.listAllFolders().subscribe(
+      folders => {
+        const treeData = this.buildTreeData({}, folders);
+        console.log('treeData = ', treeData);
+      }
     );
     const data = this.buildFileTree(TREE_DATA, 0);
 
@@ -71,34 +74,11 @@ export class MendeleyFolderTreeService {
   /**
    * Build a Tree Data Object
    */
-  private buildTreeData() {
-    return new Observable<{}>(observer => {
-      this.service.listAllFolders().subscribe(
-        folders => {
-          const treeData = {};
-          for (const folder of folders) {
-            if (folder.parent_id) {
-              const childFolders: MendeleyFolder[] = [];
-              let parentFolder = folder;
-              do {
-                childFolders.unshift(parentFolder);
-                parentFolder = folders.find(aFolder =>
-                  aFolder.id === parentFolder.parent_id);
-              } while (parentFolder);
-              // console.log(childFolders);
-              for (const childFolder of childFolders) {
-                if (treeData[childFolder.]) {}
-              }
-            } else {
-              treeData[folder.name] = null;
-            }
-          }
-          observer.next(treeData);
-        },
-        error => observer.error(error),
-        () => observer.complete()
-      );
-    });
+  private buildTreeData(treeData: {}, folders: MendeleyFolder[], parentId?: string): {} {
+    const childFolders = folders.filter(folder => folder.parent_id === parentId);
+    for (const childFolder of childFolders) {
+      treeData[childFolder.name] = null;
+    }
   }
 
   /**
