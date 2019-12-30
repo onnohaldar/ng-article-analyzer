@@ -27,7 +27,7 @@ export class NgMendeleyService {
   }
 
   get<T>(method: string, returnType: string, id?: string, params?: {}) {
-    return this.http.get<T>(this.buildUrl(method),
+    return this.http.get<T>(this.buildUrl(method, id),
       { headers: {
         Authorization: this.authToken,
         Accept: 'application/vnd.mendeley-' + returnType

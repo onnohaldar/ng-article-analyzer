@@ -16,13 +16,13 @@ export class MendeleyComponent implements OnInit {
     private documentsService: NgMendeleyDocumentsService) { }
 
   ngOnInit() {
-    this.service.accessToken = 'MSwxNTc3NjQyNTEwNTE2LDU2MTMxMjY3MSwxMDI4LGFsbCwsLDg3MDAyNjllNzQzZjc0NDE3YTk5OWJkMjU1ZTMzMGE3NjdhNmd4cnFiLGYxZTRlZTM4LWEyZjUtMzQ2Yy04YTViLWExNzE1MjYwOThkMCxhUU92Q1dkWkVsQm5PbGRIQ0VCd1BMekNVb00';
+    this.service.accessToken = 'MSwxNTc3NjcxNjI0OTgxLDU2MTMxMjY3MSwxMDI4LGFsbCwsLGY3MzZjNThjNGE4MmI1NGNmNDM4YjNlLTM4ZjkzOWE0NTI2Nmd4cnFiLGYxZTRlZTM4LWEyZjUtMzQ2Yy04YTViLWExNzE1MjYwOThkMCw0cWctU2VTbm1YdElDVExUdWo0TWZJcFpTVms';
     this.service.userRoles.subscribe(
       roles => console.log(roles),
       error => console.log(error),
       () => console.log('userRoles done!')
     );
-    this.documentsService.get().subscribe(
+    this.documentsService.get('877458db-9425-3cbc-8daf-2574ea07f162').subscribe(
       docs => console.log(docs),
       error => console.log(error),
       () => console.log('getDocs done!')
