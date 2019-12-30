@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 // Libraries
-import { NgMendeleyFoldersService } from 'ng-mendeley';
+import { NgMendeleyFoldersService, MendeleyFolder } from 'ng-mendeley';
 
 /**
  * Node for to-do item
@@ -78,16 +78,16 @@ export class MendeleyFolderTreeService {
           const treeData = {};
           for (const folder of folders) {
             if (folder.parent_id) {
-              const childFolders: {}[] = [];
+              const childFolders: MendeleyFolder[] = [];
               let parentFolder = folder;
               do {
                 childFolders.unshift(parentFolder);
                 parentFolder = folders.find(aFolder =>
                   aFolder.id === parentFolder.parent_id);
               } while (parentFolder);
-              console.log(childFolders);
+              // console.log(childFolders);
               for (const childFolder of childFolders) {
-
+                if (treeData[childFolder.]) {}
               }
             } else {
               treeData[folder.name] = null;
