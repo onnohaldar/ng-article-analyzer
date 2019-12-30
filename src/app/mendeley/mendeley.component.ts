@@ -53,7 +53,7 @@ export class MendeleyComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.service.accessToken = 'MSwxNTc3NzA1MDI3ODkyLDU2MTMxMjY3MSwxMDI4LGFsbCwsLDQ3Yjc3YTNhNjM5YWM1NDU5ZjE5YjRmMjRhMDE1NzdhMjM2Ymd4cnFiLGYxZTRlZTM4LWEyZjUtMzQ2Yy04YTViLWExNzE1MjYwOThkMCwyNl9vUjJQMjV0RDZTUmtBY3lhRzFBUm9RTm8';
+    this.service.accessToken = 'MSwxNTc3NzI2MTA2NTkzLDU2MTMxMjY3MSwxMDI4LGFsbCwsLDVmYWI2YjcyNTFlYjYxNGFjZjVhYzU2MGYzNjE3NGVhMzRkYmd4cnFiLGYxZTRlZTM4LWEyZjUtMzQ2Yy04YTViLWExNzE1MjYwOThkMCxLRG9fWXRzU2xGR3NoRjdra0dNWkI1MUFfTUU';
     this.service.retrieveAllUserRoles().subscribe(
       roles => console.log(roles),
       error => console.log(error),
@@ -64,11 +64,7 @@ export class MendeleyComponent implements OnInit {
       error => console.log(error),
       () => console.log('retrieveADocument done!')
     );
-    this.foldersService.listAllFolders().subscribe(
-      folders => console.log(folders),
-      error => console.log(error),
-      () => console.log('listAllFolders done!')
-    );
+    this.folderTreeService.initialize();
   }
 
   getLevel = (node: TodoItemFlatNode) => node.level;

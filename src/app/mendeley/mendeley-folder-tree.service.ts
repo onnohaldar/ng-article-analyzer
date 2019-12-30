@@ -2,7 +2,10 @@
 import { Injectable } from '@angular/core';
 
 // Rxjs
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+// Libraries
+import { NgMendeleyFoldersService } from 'ng-mendeley';
 
 /**
  * Node for to-do item
@@ -45,25 +48,57 @@ const TREE_DATA = {
  * Each node in Json object represents a to-do item or a category.
  * If a node is a category, it has children items and new items can be added under the category.
  */
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class MendeleyFolderTreeService {
   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
 
   get data(): TodoItemNode[] { return this.dataChange.value; }
 
-  constructor() {
-    this.initialize();
-  }
+  constructor(private service: NgMendeleyFoldersService) { }
 
   initialize() {
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
+    this.buildTreeData().subscribe(
+      treeData => console.log(treeData)
+    );
     const data = this.buildFileTree(TREE_DATA, 0);
 
     // Notify the change.
     this.dataChange.next(data);
+  }
+
+  /**
+   * Build a Tree Data Object
+   */
+  private buildTreeData() {
+    return new Observable<{}>(observer => {
+      this.service.listAllFolders().subscribe(
+        folders => {
+          const treeData = {};
+          for (const folder of folders) {
+            if (folder.parent_id) {
+              const childFolders: {}[] = [];
+              let parentFolder = folder;
+              do {
+                childFolders.unshift(parentFolder);
+                parentFolder = folders.find(aFolder =>
+                  aFolder.id === parentFolder.parent_id);
+              } while (parentFolder);
+              console.log(childFolders);
+              for (const childFolder of childFolders) {
+
+              }
+            } else {
+              treeData[folder.name] = null;
+            }
+          }
+          observer.next(treeData);
+        },
+        error => observer.error(error),
+        () => observer.complete()
+      );
+    });
   }
 
   /**
