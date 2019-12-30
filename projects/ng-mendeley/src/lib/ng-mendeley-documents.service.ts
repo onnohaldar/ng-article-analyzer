@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 // Libraries
 import { NgMendeleyService } from './ng-mendeley.service';
 
+interface DocumentParams { view: 'bib' | 'client' | 'tags' | 'patent' | 'all'; }
+
 interface Document {
   id: string;               // UUID of the document. Is set by the server on create.
   title: string;            // Title of the document (required).
@@ -27,14 +29,24 @@ export class NgMendeleyDocumentsService {
 
   constructor(private service: NgMendeleyService) { }
 
+  private get<T extends Document | Document[]>(id?: string, params?: DocumentParams) {
+    return this.service.get<T>('documents', 'document.1+json', id, params);
+  }
+
   /**
-   * Mendely API Restrieve (a) document(s)
-   * @see
-   * <https://dev.mendeley.com/methods/#retrieving-documents>
-   * <https://dev.mendeley.com/methods/#retrieving-a-document>
+   * Mendely API method: retrieve documents
+   * @see <https://dev.mendeley.com/methods/#retrieving-documents>
    */
-  get(id?: string, params?: { view: 'bib' | 'client' | 'tags' | 'patent' | 'all' }) {
-    return this.service.get<Document | Document[]>('documents', 'document.1+json', id, params);
+  retrieveDocs(params?: DocumentParams) {
+    return this.get<Document[]>(undefined, params);
+  }
+
+  /**
+   * Mendely API method: retrieve a document
+   * @see <https://dev.mendeley.com/methods/#retrieving-a-document>
+   */
+  retrieveADoc(id: string, params?: DocumentParams) {
+    return this.get<Document>(id, params);
   }
 
 }
