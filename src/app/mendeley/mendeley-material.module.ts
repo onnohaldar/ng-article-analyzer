@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import {
+  MatInputModule,
   MatIconModule,
   MatFormFieldModule,
   MatCheckboxModule,
@@ -10,6 +11,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 const matModules = [
     FlexLayoutModule,
+    MatInputModule,
     MatIconModule,
     MatFormFieldModule,
     MatCheckboxModule,

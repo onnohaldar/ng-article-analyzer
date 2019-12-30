@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Rxjs
-import {BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 /**
  * Node for to-do item
