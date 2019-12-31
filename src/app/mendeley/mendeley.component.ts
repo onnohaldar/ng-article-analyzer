@@ -8,7 +8,7 @@ import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 import { NgMendeleyService, NgMendeleyDocumentsService, NgMendeleyFoldersService } from 'ng-mendeley';
 
 // Application
-import { MendeleyFolderTreeService, TodoItemNode, TodoItemFlatNode } from './mendeley-folder-tree.service';
+import { MendeleyFolderTreeService, FolderTreeNode, FolderTreeFlatNode } from './mendeley-folder-tree.service';
 
 @Component({
   selector: 'app-mendeley',
@@ -17,25 +17,25 @@ import { MendeleyFolderTreeService, TodoItemNode, TodoItemFlatNode } from './men
 })
 export class MendeleyComponent implements OnInit {
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
-  flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
+  flatNodeMap = new Map<FolderTreeFlatNode, FolderTreeNode>();
 
   /** Map from nested node to flattened node. This helps us to keep the same object for selection */
-  nestedNodeMap = new Map<TodoItemNode, TodoItemFlatNode>();
+  nestedNodeMap = new Map<FolderTreeNode, FolderTreeFlatNode>();
 
   /** A selected parent node to be inserted */
-  selectedParent: TodoItemFlatNode | null = null;
+  selectedParent: FolderTreeFlatNode | null = null;
 
   /** The new item's name */
   newItemName = '';
 
-  treeControl: FlatTreeControl<TodoItemFlatNode>;
+  treeControl: FlatTreeControl<FolderTreeFlatNode>;
 
-  treeFlattener: MatTreeFlattener<TodoItemNode, TodoItemFlatNode>;
+  treeFlattener: MatTreeFlattener<FolderTreeNode, FolderTreeFlatNode>;
 
-  dataSource: MatTreeFlatDataSource<TodoItemNode, TodoItemFlatNode>;
+  dataSource: MatTreeFlatDataSource<FolderTreeNode, FolderTreeFlatNode>;
 
   /** The selection for checklist */
-  checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
+  checklistSelection = new SelectionModel<FolderTreeFlatNode>(true /* multiple */);
 
   constructor(
     private service: NgMendeleyService,
@@ -44,7 +44,7 @@ export class MendeleyComponent implements OnInit {
     private folderTreeService: MendeleyFolderTreeService) {
       this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
         this.isExpandable, this.getChildren);
-      this.treeControl = new FlatTreeControl<TodoItemFlatNode>(this.getLevel, this.isExpandable);
+      this.treeControl = new FlatTreeControl<FolderTreeFlatNode>(this.getLevel, this.isExpandable);
       this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   
       folderTreeService.dataChange.subscribe(data => {
@@ -67,25 +67,25 @@ export class MendeleyComponent implements OnInit {
     this.folderTreeService.initialize();
   }
 
-  getLevel = (node: TodoItemFlatNode) => node.level;
+  getLevel = (node: FolderTreeFlatNode) => node.level;
 
-  isExpandable = (node: TodoItemFlatNode) => node.expandable;
+  isExpandable = (node: FolderTreeFlatNode) => node.expandable;
 
-  getChildren = (node: TodoItemNode): TodoItemNode[] => node.children;
+  getChildren = (node: FolderTreeNode): FolderTreeNode[] => node.children;
 
-  hasChild = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.expandable;
+  hasChild = (_: number, _nodeData: FolderTreeFlatNode) => _nodeData.expandable;
 
-  hasNoContent = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.item === '';
+  hasNoContent = (_: number, _nodeData: FolderTreeFlatNode) => _nodeData.name === '';
 
   /**
    * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
    */
-  transformer = (node: TodoItemNode, level: number) => {
+  transformer = (node: FolderTreeNode, level: number) => {
     const existingNode = this.nestedNodeMap.get(node);
-    const flatNode = existingNode && existingNode.item === node.item
+    const flatNode = existingNode && existingNode.name === node.name
         ? existingNode
-        : new TodoItemFlatNode();
-    flatNode.item = node.item;
+        : new FolderTreeFlatNode();
+    flatNode.name = node.name;
     flatNode.level = level;
     flatNode.expandable = !!node.children;
     this.flatNodeMap.set(flatNode, node);
@@ -94,7 +94,7 @@ export class MendeleyComponent implements OnInit {
   }
 
   /** Whether all the descendants of the node are selected. */
-  descendantsAllSelected(node: TodoItemFlatNode): boolean {
+  descendantsAllSelected(node: FolderTreeFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
     const descAllSelected = descendants.every(child =>
       this.checklistSelection.isSelected(child)
@@ -103,14 +103,14 @@ export class MendeleyComponent implements OnInit {
   }
 
   /** Whether part of the descendants are selected */
-  descendantsPartiallySelected(node: TodoItemFlatNode): boolean {
+  descendantsPartiallySelected(node: FolderTreeFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
     const result = descendants.some(child => this.checklistSelection.isSelected(child));
     return result && !this.descendantsAllSelected(node);
   }
 
   /** Toggle the to-do item selection. Select/deselect all the descendants node */
-  todoItemSelectionToggle(node: TodoItemFlatNode): void {
+  todoItemSelectionToggle(node: FolderTreeFlatNode): void {
     this.checklistSelection.toggle(node);
     const descendants = this.treeControl.getDescendants(node);
     this.checklistSelection.isSelected(node)
@@ -125,14 +125,14 @@ export class MendeleyComponent implements OnInit {
   }
 
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
-  todoLeafItemSelectionToggle(node: TodoItemFlatNode): void {
+  todoLeafItemSelectionToggle(node: FolderTreeFlatNode): void {
     this.checklistSelection.toggle(node);
     this.checkAllParentsSelection(node);
   }
 
   /* Checks all the parents when a leaf node is selected/unselected */
-  checkAllParentsSelection(node: TodoItemFlatNode): void {
-    let parent: TodoItemFlatNode | null = this.getParentNode(node);
+  checkAllParentsSelection(node: FolderTreeFlatNode): void {
+    let parent: FolderTreeFlatNode | null = this.getParentNode(node);
     while (parent) {
       this.checkRootNodeSelection(parent);
       parent = this.getParentNode(parent);
@@ -140,7 +140,7 @@ export class MendeleyComponent implements OnInit {
   }
 
   /** Check root node checked state and change it accordingly */
-  checkRootNodeSelection(node: TodoItemFlatNode): void {
+  checkRootNodeSelection(node: FolderTreeFlatNode): void {
     const nodeSelected = this.checklistSelection.isSelected(node);
     const descendants = this.treeControl.getDescendants(node);
     const descAllSelected = descendants.every(child =>
@@ -154,7 +154,7 @@ export class MendeleyComponent implements OnInit {
   }
 
   /* Get the parent node of a node */
-  getParentNode(node: TodoItemFlatNode): TodoItemFlatNode | null {
+  getParentNode(node: FolderTreeFlatNode): FolderTreeFlatNode | null {
     const currentLevel = this.getLevel(node);
 
     if (currentLevel < 1) {
@@ -174,14 +174,14 @@ export class MendeleyComponent implements OnInit {
   }
 
   /** Select the category so we can insert the new item. */
-  addNewItem(node: TodoItemFlatNode) {
+  addNewItem(node: FolderTreeFlatNode) {
     const parentNode = this.flatNodeMap.get(node);
     this.folderTreeService.insertItem(parentNode!, '');
     this.treeControl.expand(node);
   }
 
   /** Save the node to database */
-  saveNode(node: TodoItemFlatNode, itemValue: string) {
+  saveNode(node: FolderTreeFlatNode, itemValue: string) {
     const nestedNode = this.flatNodeMap.get(node);
     this.folderTreeService.updateItem(nestedNode!, itemValue);
   }

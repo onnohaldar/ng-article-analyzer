@@ -46,8 +46,16 @@ const TREE_DATA = {
 export class FolderTreeNode {
   id: string;
   name: string;
-  childs?: FolderTreeNode[];
+  children?: FolderTreeNode[];
 }
+
+export class FolderTreeFlatNode {
+  id: string;
+  name: string;
+  level: number;
+  expandable: boolean;
+}
+
 
 /**
  * Checklist database, it can build a tree structured Json object.
@@ -100,10 +108,10 @@ export class MendeleyFolderTreeService {
 
     for (const childFolder of childFolders) {
       const childFolderTreeNode = this.buildFolderTreeNode(folders, childFolder);
-      if (folderTreeNode.childs) {
-        folderTreeNode.childs.push(childFolderTreeNode);
+      if (folderTreeNode.children) {
+        folderTreeNode.children.push(childFolderTreeNode);
       } else {
-        folderTreeNode.childs = [childFolderTreeNode];
+        folderTreeNode.children = [childFolderTreeNode];
       }
     }
     return folderTreeNode;
@@ -133,8 +141,8 @@ export class MendeleyFolderTreeService {
 
   /** Add an item to to-do list */
   insertItem(parent: FolderTreeNode, name: string) {
-    if (parent.childs) {
-      parent.childs.push({ name } as FolderTreeNode);
+    if (parent.children) {
+      parent.children.push({ name } as FolderTreeNode);
       this.dataChange.next(this.data);
     }
   }
