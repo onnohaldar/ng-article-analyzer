@@ -68,13 +68,33 @@ export class MendeleyFolderTreeService {
     this.service.listAllFolders().subscribe(
       folders => {
         const topFolders = folders.filter(folder => !folder.parent_id);
-        console.log('topFolders', topFolders);
+        const childFolders = folders.filter(folder => folder.parent_id);
+        const folderTreeNodes: FolderTreeNode[] = [];
+        for (const topFolder of topFolders) {
+          const folderTreeNode = this.buildFolderTreeNode(childFolders, topFolder);
+          folderTreeNodes.push(folderTreeNode);
+        }
+        console.log('folderTreeNodes', folderTreeNodes);
       }
     );
     const data = this.buildFileTree(TREE_DATA, 0);
 
     // Notify the change.
     this.dataChange.next(data);
+  }
+
+  buildFolderTreeNode(childFolders: MendeleyFolder[], topFolder: MendeleyFolder): FolderTreeNode {
+    const subFolders = childFolders.filter(folder => folder.parent_id === topFolder.id);
+    const folderTreeNode: FolderTreeNode = { id: topFolder.id, name: topFolder.name };
+    for (const subFolder of subFolders) {
+      const subFolderTreeNode = this.buildFolderTreeNode(childFolders, subFolder);
+      if (folderTreeNode.childs) {
+        folderTreeNode.childs.push(subFolderTreeNode);
+      } else {
+        folderTreeNode.childs = [subFolderTreeNode];
+      }
+    }
+    return folderTreeNode;
   }
 
   /**
