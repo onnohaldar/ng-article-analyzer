@@ -18,13 +18,13 @@ export class NgMendeleyService {
    * @see <https://www.oauth.com/oauth2-servers/making-authenticated-requests/refreshing-an-access-token/>
    * @see <https://dev.mendeley.com/reference/topics/authorization_auth_code.html>
    */
-  private authParms: {
-    accessToken?: string;
-    refreshToken?: string;
-    clientId?: string;
-    clientSecret?: string;
-    tokenType: 'bearer';
-    expires?: number;
+  private authParms = {
+    accessToken: undefined,
+    refreshToken: undefined,
+    clientId: undefined,
+    clientSecret: undefined,
+    tokenType: 'bearer',
+    expires: undefined
   };
 
   constructor(private http: HttpClient) { }
