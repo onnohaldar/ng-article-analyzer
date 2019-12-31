@@ -43,6 +43,12 @@ const TREE_DATA = {
   ]
 };
 
+interface FolderTreeNode {
+  id: string;
+  name: string;
+  childs?: FolderTreeNode[];
+}
+
 /**
  * Checklist database, it can build a tree structured Json object.
  * Each node in Json object represents a to-do item or a category.
@@ -61,7 +67,7 @@ export class MendeleyFolderTreeService {
     //     file node as children.
     this.service.listAllFolders().subscribe(
       folders => {
-        const treeData = this.buildTreeData({}, folders, '4e48de0a-af25-4944-9814-fbcf579fe481');
+        const treeData = this.buildTreeData(folders);
         console.log('treeData = ', treeData);
       }
     );
@@ -74,14 +80,29 @@ export class MendeleyFolderTreeService {
   /**
    * Build a Tree Data Object
    */
-  buildTreeData(treeData: {[key: string]: any}, folders: MendeleyFolder[], id?: string): {} {
-    console.log('treeData', treeData);
-    console.log('id', id);
-    const childFolders = folders.filter(folder => folder.parent_id === id);
-    console.log('childFolders', childFolders);
-    for (const childFolder of childFolders) {
-      treeData[childFolder.name] = {};
-      return this.buildTreeData(treeData[childFolder.name], folders, childFolder.id);
+  buildTreeData(folders: MendeleyFolder[], treeData?: FolderTreeNode): FolderTreeNode[] {
+    if (treeData) {
+      console.log('treeData', treeData);
+      const childFolders = folders.filter(folder => folder.parent_id = treeData.id);
+      console.log('childFolders', childFolders);
+      if (childFolders.length > 0) {
+        for (const childFolder of childFolders) {
+          const child = { id: childFolder.id, name: childFolder.name };
+          if (treeData.childs) {
+            treeData.childs.push(child);
+          } else {
+            treeData.childs = [child];
+          }
+        }
+        console.log('treeData POST', treeData);
+        return this.buildTreeData(folders, treeData);
+      }
+    } else {
+      const topFolders = folders.filter(folder => folder.parent_id === undefined);
+      console.log('topFolders', topFolders);
+      for (const topFolder of topFolders) {
+        return this.buildTreeData(folders, { id: topFolder.id, name: topFolder.name });
+      }
     }
   }
 
