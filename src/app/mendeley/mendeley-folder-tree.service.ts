@@ -61,7 +61,7 @@ export class MendeleyFolderTreeService {
     //     file node as children.
     this.service.listAllFolders().subscribe(
       folders => {
-        const treeData = this.buildTreeData({}, folders);
+        const treeData = this.buildTreeData({}, folders, '4e48de0a-af25-4944-9814-fbcf579fe481');
         console.log('treeData = ', treeData);
       }
     );
@@ -74,19 +74,15 @@ export class MendeleyFolderTreeService {
   /**
    * Build a Tree Data Object
    */
-  buildTreeData(treeData: {}, folders: MendeleyFolder[], id?: string): {} {
+  buildTreeData(treeData: {[key: string]: any}, folders: MendeleyFolder[], id?: string): {} {
     console.log('treeData', treeData);
     console.log('id', id);
     const childFolders = folders.filter(folder => folder.parent_id === id);
     console.log('childFolders', childFolders);
     for (const childFolder of childFolders) {
-      return this.buildTreeData(treeData, folders, childFolder.id);
+      treeData[childFolder.name] = {};
+      return this.buildTreeData(treeData[childFolder.name], folders, childFolder.id);
     }
-    if (id) {
-      const parentFolder = folders.find(folder => folder.id = id);
-      treeData[parentFolder.name] = null;
-    }
-    return treeData;
   }
 
   /**
