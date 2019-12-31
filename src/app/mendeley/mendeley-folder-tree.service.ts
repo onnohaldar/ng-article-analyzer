@@ -43,7 +43,7 @@ const TREE_DATA = {
   ]
 };
 
-interface FolderTreeNode {
+export class FolderTreeNode {
   id: string;
   name: string;
   childs?: FolderTreeNode[];
@@ -56,28 +56,27 @@ interface FolderTreeNode {
  */
 @Injectable()
 export class MendeleyFolderTreeService {
-  dataChange = new BehaviorSubject<TodoItemNode[]>([]);
+  dataChange = new BehaviorSubject<FolderTreeNode[]>([]);
 
-  get data(): TodoItemNode[] { return this.dataChange.value; }
+  get data(): FolderTreeNode[] { return this.dataChange.value; }
 
   constructor(private service: NgMendeleyFoldersService) { }
 
   initialize() {
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
-    let params = { limit: '100' };
+    const params = { limit: '200' };
     this.service.listAllFolders(params).subscribe(
       folders => {
         console.log('params', params);
         console.log('folders', folders);
-        const folderTreeNodes = this.buildFolderTreeNodes(folders);
-        console.log('folderTreeNodes', folderTreeNodes);
+        const data = this.buildFolderTreeNodes(folders);
+        console.log('folderTreeNodes', data);
+        // Notify the change.
+        this.dataChange.next(data);
       }
     );
     // const data = this.buildFileTree(TREE_DATA, 0);
-
-    // Notify the change.
-    // this.dataChange.next(data);
   }
 
   buildFolderTreeNodes(folders: MendeleyFolder[]): FolderTreeNode[] {
@@ -95,7 +94,9 @@ export class MendeleyFolderTreeService {
     console.log('topFolder', topFolder);
     const childFolders = folders.filter(folder => folder.parent_id === topFolder.id);
     console.log('childFolders', childFolders);
-    const folderTreeNode: FolderTreeNode = { id: topFolder.id, name: topFolder.name };
+    const folderTreeNode = new FolderTreeNode();
+    folderTreeNode.id = topFolder.id;
+    folderTreeNode.name = topFolder.name;
 
     for (const childFolder of childFolders) {
       const childFolderTreeNode = this.buildFolderTreeNode(folders, childFolder);
@@ -131,15 +132,15 @@ export class MendeleyFolderTreeService {
   }
 
   /** Add an item to to-do list */
-  insertItem(parent: TodoItemNode, name: string) {
-    if (parent.children) {
-      parent.children.push({item: name} as TodoItemNode);
+  insertItem(parent: FolderTreeNode, name: string) {
+    if (parent.childs) {
+      parent.childs.push({ name } as FolderTreeNode);
       this.dataChange.next(this.data);
     }
   }
 
-  updateItem(node: TodoItemNode, name: string) {
-    node.item = name;
+  updateItem(node: FolderTreeNode, name: string) {
+    node.name = name;
     this.dataChange.next(this.data);
   }
 }
