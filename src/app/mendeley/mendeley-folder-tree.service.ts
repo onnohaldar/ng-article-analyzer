@@ -98,32 +98,6 @@ export class MendeleyFolderTreeService {
   }
 
   /**
-   * Build a Tree Data Object
-   */
-  buildTreeData(folders: MendeleyFolder[], treeData?: FolderTreeNode): FolderTreeNode[] {
-    if (treeData) {
-      console.log('treeData', treeData);
-      const childFolders = folders.filter(folder => folder.parent_id !== undefined && folder.parent_id === treeData.id);
-      console.log('childFolders', childFolders);
-      const childs: FolderTreeNode[] = [];
-      if (childFolders.length > 0) {
-        for (const childFolder of childFolders) {
-          childs.push({ id: childFolder.id, name: childFolder.name });
-        }
-        return childs;
-      } else {
-        return treeData.childs;
-      }
-    } else {
-      const topFolders = folders.filter(folder => !folder.parent_id);
-      console.log('topFolders', topFolders);
-      for (const topFolder of topFolders) {
-        return this.buildTreeData(folders, { id: topFolder.id, name: topFolder.name });
-      }
-    }
-  }
-
-  /**
    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
    * The return value is the list of `TodoItemNode`.
    */
