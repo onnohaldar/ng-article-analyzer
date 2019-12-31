@@ -83,22 +83,19 @@ export class MendeleyFolderTreeService {
   buildTreeData(folders: MendeleyFolder[], treeData?: FolderTreeNode): FolderTreeNode[] {
     if (treeData) {
       console.log('treeData', treeData);
-      const childFolders = folders.filter(folder => folder.parent_id = treeData.id);
+      const childFolders = folders.filter(folder => folder.parent_id !== undefined && folder.parent_id === treeData.id);
       console.log('childFolders', childFolders);
+      const childs: FolderTreeNode[] = [];
       if (childFolders.length > 0) {
         for (const childFolder of childFolders) {
-          const child = { id: childFolder.id, name: childFolder.name };
-          if (treeData.childs) {
-            treeData.childs.push(child);
-          } else {
-            treeData.childs = [child];
-          }
+          childs.push({ id: childFolder.id, name: childFolder.name });
         }
-        console.log('treeData POST', treeData);
-        return this.buildTreeData(folders, treeData);
+        return childs;
+      } else {
+        return treeData.childs;
       }
     } else {
-      const topFolders = folders.filter(folder => folder.parent_id === undefined);
+      const topFolders = folders.filter(folder => !folder.parent_id);
       console.log('topFolders', topFolders);
       for (const topFolder of topFolders) {
         return this.buildTreeData(folders, { id: topFolder.id, name: topFolder.name });
