@@ -29,13 +29,10 @@ export class NgMendeleyService {
 
   constructor(private http: HttpClient) { }
 
-  set accessToken(value: string) {
-    this.authParms.accessToken = value;
-  }
-
-  set refreshToken(value: string) {
-    this.authParms.refreshToken = value;
-  }
+  set accessToken(value: string) { this.authParms.accessToken = value; }
+  set refreshToken(value: string) { this.authParms.refreshToken = value; }
+  set clientId(value: string) { this.authParms.clientId = value; }
+  set clientSecret(value: string) { this.authParms.clientSecret = value; }
 
   buildUrl(method: string, id?: string) {
     if (id) { method += '/' + id; }
