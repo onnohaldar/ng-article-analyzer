@@ -53,7 +53,7 @@ export class MendeleyComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.service.accessToken = 'MSwxNTc3Nzg4ODkzNTcwLDU2MTMxMjY3MSwxMDI4LGFsbCwsLDkwM2I4ZmFiNjdlNjk1NGNjMzc4ZTQ0MGZlNWExYTcxZjMzYWd4cnFiLGYxZTRlZTM4LWEyZjUtMzQ2Yy04YTViLWExNzE1MjYwOThkMCxIQnNtVWgxU3FIbHU2YThIc0pyZ2ExNm1FU2M';
+    this.service.accessToken = 'MSwxNTc3Nzk2NDIzNDY0LDU2MTMxMjY3MSwxMDI4LGFsbCwsLDMyMmVmMTdlNWFiY2Y5NDU3YTA4ZGU3MmJiYjZkZDk3YjUyOWd4cnFiLGYxZTRlZTM4LWEyZjUtMzQ2Yy04YTViLWExNzE1MjYwOThkMCxYVnVhdXZZNHdTdjlLWHh5eXZFcHc0cHBhZ3c';
     this.service.retrieveAllUserRoles().subscribe(
       roles => console.log(roles),
       error => console.log(error),

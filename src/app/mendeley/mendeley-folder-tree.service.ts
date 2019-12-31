@@ -65,33 +65,44 @@ export class MendeleyFolderTreeService {
   initialize() {
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
-    this.service.listAllFolders().subscribe(
+    let params = { limit: '100' };
+    this.service.listAllFolders(params).subscribe(
       folders => {
-        const topFolders = folders.filter(folder => !folder.parent_id);
-        const childFolders = folders.filter(folder => folder.parent_id);
-        const folderTreeNodes: FolderTreeNode[] = [];
-        for (const topFolder of topFolders) {
-          const folderTreeNode = this.buildFolderTreeNode(childFolders, topFolder);
-          folderTreeNodes.push(folderTreeNode);
-        }
+        console.log('params', params);
+        console.log('folders', folders);
+        const folderTreeNodes = this.buildFolderTreeNodes(folders);
         console.log('folderTreeNodes', folderTreeNodes);
       }
     );
-    const data = this.buildFileTree(TREE_DATA, 0);
+    // const data = this.buildFileTree(TREE_DATA, 0);
 
     // Notify the change.
-    this.dataChange.next(data);
+    // this.dataChange.next(data);
   }
 
-  buildFolderTreeNode(childFolders: MendeleyFolder[], topFolder: MendeleyFolder): FolderTreeNode {
-    const subFolders = childFolders.filter(folder => folder.parent_id === topFolder.id);
+  buildFolderTreeNodes(folders: MendeleyFolder[]): FolderTreeNode[] {
+    const topFolders = folders.filter(folder => !folder.parent_id);
+    const folderTreeNodes: FolderTreeNode[] = [];
+    for (const topFolder of topFolders) {
+      const folderTreeNode = this.buildFolderTreeNode(folders, topFolder);
+      console.log('folderTreeNode', folderTreeNode);
+      folderTreeNodes.push(folderTreeNode);
+    }
+    return folderTreeNodes;
+  }
+
+  buildFolderTreeNode(folders: MendeleyFolder[], topFolder: MendeleyFolder): FolderTreeNode {
+    console.log('topFolder', topFolder);
+    const childFolders = folders.filter(folder => folder.parent_id === topFolder.id);
+    console.log('childFolders', childFolders);
     const folderTreeNode: FolderTreeNode = { id: topFolder.id, name: topFolder.name };
-    for (const subFolder of subFolders) {
-      const subFolderTreeNode = this.buildFolderTreeNode(childFolders, subFolder);
+
+    for (const childFolder of childFolders) {
+      const childFolderTreeNode = this.buildFolderTreeNode(folders, childFolder);
       if (folderTreeNode.childs) {
-        folderTreeNode.childs.push(subFolderTreeNode);
+        folderTreeNode.childs.push(childFolderTreeNode);
       } else {
-        folderTreeNode.childs = [subFolderTreeNode];
+        folderTreeNode.childs = [childFolderTreeNode];
       }
     }
     return folderTreeNode;

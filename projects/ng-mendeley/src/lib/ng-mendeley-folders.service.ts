@@ -15,7 +15,10 @@ export interface MendeleyFolder {
   created: string;	// date the folder was created. This date is represented in ISO 8601 format.
   modified: string;	// date the folder was modified. This date is represented in ISO 8601 format.
 }
-
+interface MendeleyFoldersParams {
+  group_id?: string; // returns all folders in a particular group
+  limit?: string;    // maximum number of entries to be returned
+}
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +30,8 @@ export class NgMendeleyFoldersService {
   /**
    * Mendely API method: <https://dev.mendeley.com/methods/#list-all-folders>
    */
-  listAllFolders() {
-    return this.service.get<MendeleyFolder[]>('folders', 'folder.1+json');
+  listAllFolders(params?: MendeleyFoldersParams) {
+    return this.service.get<MendeleyFolder[]>('folders', 'folder.1+json', undefined, params);
   }
 
 }
