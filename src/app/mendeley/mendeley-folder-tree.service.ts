@@ -67,8 +67,8 @@ export class MendeleyFolderTreeService {
     //     file node as children.
     this.service.listAllFolders().subscribe(
       folders => {
-        const treeData = this.buildTreeData(folders);
-        console.log('treeData = ', treeData);
+        const topFolders = folders.filter(folder => !folder.parent_id);
+        console.log('topFolders', topFolders);
       }
     );
     const data = this.buildFileTree(TREE_DATA, 0);

@@ -8,15 +8,33 @@ export interface MendeleyUserRole { description: string; }
   providedIn: 'root'
 })
 export class NgMendeleyService {
+  /**
+   * Mendeley Rest Api EndPoint
+   */
   readonly apiUrl = 'https://api.mendeley.com';
-  private authParms = {
-    accessToken: '<ACCESS_TOKEN>'
+
+  /**
+   * 0Auth Parameters
+   * @see <https://www.oauth.com/oauth2-servers/making-authenticated-requests/refreshing-an-access-token/>
+   * @see <https://dev.mendeley.com/reference/topics/authorization_auth_code.html>
+   */
+  private authParms: {
+    accessToken?: string;
+    refreshToken?: string;
+    clientId?: string;
+    clientSecret?: string;
+    tokenType: 'bearer';
+    expires?: number;
   };
 
   constructor(private http: HttpClient) { }
 
   set accessToken(value: string) {
     this.authParms.accessToken = value;
+  }
+
+  set refreshToken(value: string) {
+    this.authParms.refreshToken = value;
   }
 
   buildUrl(method: string, id?: string) {
@@ -28,8 +46,11 @@ export class NgMendeleyService {
     return 'Bearer ' + this.authParms.accessToken;
   }
 
-  get<T>(method: string, returnType: string, id?: string, params?: {}) {
-    return this.http.get<T>(this.buildUrl(method, id),
+  /**
+   * Mendeley Rest Api GET-method
+   */
+  get<T>(methodPath: string, returnType: string, id?: string, params?: {}) {
+    return this.http.get<T>(this.buildUrl(methodPath, id),
       { headers: {
         Authorization: this.authToken,
         Accept: 'application/vnd.mendeley-' + returnType
