@@ -46,7 +46,6 @@ export class MendeleyComponent implements OnInit {
         this.isExpandable, this.getChildren);
       this.treeControl = new FlatTreeControl<FolderTreeFlatNode>(this.getLevel, this.isExpandable);
       this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-  
       folderTreeService.dataChange.subscribe(data => {
         this.dataSource.data = data;
       });
