@@ -5,13 +5,15 @@ import { Injectable } from '@angular/core';
 import { NgMendeleyService } from './ng-mendeley.service';
 interface AuthParms {
   clientId?: string;
+  secret?: string;
   redirectUri?: string;
   responseType: string;
   scope: string;
+  state?: string;
   accessToken?: string;
   refreshToken?: string;
   clientSecret?: string;
-  readonly tokenType: string;
+  tokenType?: string;
   expires?: string;
 }
 
@@ -20,21 +22,27 @@ interface AuthParms {
 })
 export class NgMendeleyAuthorizationService {
   /**
-   * 0Auth Parameters
-   * @see <https://www.oauth.com/oauth2-servers/making-authenticated-requests/refreshing-an-access-token/>
-   * @see <https://dev.mendeley.com/reference/topics/authorization_auth_code.html>
+   * Defaults Authorization Flow
    */
-  private authParms: AuthParms = { responseType: 'code', scope: 'all', tokenType: 'bearer' };
+  private authParms: AuthParms = {
+    responseType: 'code',
+    scope: 'all'
+  };
 
   constructor(private service: NgMendeleyService) { }
 
-  set accessToken(value: string) { this.authParms.accessToken = value; }
-  set refreshToken(value: string) { this.authParms.refreshToken = value; }
-  set clientId(value: string) { this.authParms.clientId = value; }
-  set clientSecret(value: string) { this.authParms.clientSecret = value; }
-
   get authToken() {
     return 'Bearer ' + this.authParms.accessToken;
+  }
+
+  /**
+   * Start Basic Authorization Flow
+   * @see <https://dev.mendeley.com/reference/topics/authorization_auth_code.html>
+   * @see <https://www.oauth.com/oauth2-servers/making-authenticated-requests/refreshing-an-access-token/>
+   * @see <https://en.wikipedia.org/wiki/Basic_access_authentication>
+   */
+  login(clientId: string, redirectUri: string, secret: string) {
+    this.service.get<any>()
   }
 
 }
