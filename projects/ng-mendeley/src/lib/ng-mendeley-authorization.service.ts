@@ -1,6 +1,9 @@
 // Angular
 import { Injectable } from '@angular/core';
 
+// UUID
+import { v4 as uuid } from 'uuid';
+
 // Library
 import { NgMendeleyService } from './ng-mendeley.service';
 interface AuthParms {
@@ -21,9 +24,10 @@ interface AuthParms {
   providedIn: 'root'
 })
 export class NgMendeleyAuthorizationService {
-  /**
-   * Defaults Authorization Flow
-   */
+  private readonly oauthPath = 'oauth';
+  private readonly authorizePath = this.oauthPath + '/' + 'authorize';
+  private readonly tokenPath = this.oauthPath + '/' + 'token';
+
   private authParms: AuthParms = {
     responseType: 'code',
     scope: 'all'
@@ -41,8 +45,20 @@ export class NgMendeleyAuthorizationService {
    * @see <https://www.oauth.com/oauth2-servers/making-authenticated-requests/refreshing-an-access-token/>
    * @see <https://en.wikipedia.org/wiki/Basic_access_authentication>
    */
-  login(clientId: string, redirectUri: string, secret: string) {
-    this.service.get<any>()
+  authorize(clientId: string, redirectUri: string, secret: string) {
+    // preserve auth parms
+    this.authParms.clientId = clientId;
+    this.authParms.redirectUri = redirectUri;
+    this.authParms.secret = secret;
+    this.authParms.state = uuid();
+    // create auth url
+    this.service.get<any>(this.authorizePath, undefined, undefined, {
+      client_id: this.authParms.clientId,
+      redirect_uri: this.authParms.redirectUri,
+      response_type: this.authParms.responseType,
+      scope: this.authParms.scope,
+      state: this.authParms.state
+    });
   }
 
 }
