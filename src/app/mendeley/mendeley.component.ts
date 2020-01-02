@@ -5,7 +5,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 
 // Libraries
-import { NgMendeleyService, NgMendeleyDocumentsService, NgMendeleyFoldersService } from 'ng-mendeley';
+import { NgMendeleyAuthorizationService, NgMendeleyDocumentsService, NgMendeleyFoldersService } from 'ng-mendeley';
 
 // Application
 import { MendeleyFolderTreeService, FolderTreeNode, FolderTreeFlatNode } from './mendeley-folder-tree.service';
@@ -38,10 +38,18 @@ export class MendeleyComponent implements OnInit {
   checklistSelection = new SelectionModel<FolderTreeFlatNode>(true /* multiple */);
 
   constructor(
-    private service: NgMendeleyService,
+    private authorizationService: NgMendeleyAuthorizationService,
     private documentsService: NgMendeleyDocumentsService,
     private foldersService: NgMendeleyFoldersService,
     private folderTreeService: MendeleyFolderTreeService) {
+      // Initialize Mendeley API authorization
+      this.authorizationService.authorize(
+        '7702',
+        'http://localhost:4200/mendeley',
+        'LxTAO6UEVWEk5LBK'
+      );
+
+      // Initialize Folder Tree UI
       this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
         this.isExpandable, this.getChildren);
       this.treeControl = new FlatTreeControl<FolderTreeFlatNode>(this.getLevel, this.isExpandable);
@@ -52,17 +60,6 @@ export class MendeleyComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.service.accessToken = 'MSwxNTc3ODEwNTI2MDA2LDU2MTMxMjY3MSwxMDI4LGFsbCwsLGRhNzk0MWU3NDEzYjA2NGY1ODNiMmY5OWEwMGQzNDUyMzRhNGd4cnFiLGYxZTRlZTM4LWEyZjUtMzQ2Yy04YTViLWExNzE1MjYwOThkMCx1T0poM2E1bHppMGV5RmRHWU4zTXRqTWYzMzA';
-    this.service.retrieveAllUserRoles().subscribe(
-      roles => console.log(roles),
-      error => console.log(error),
-      () => console.log('retrieveAllUserRoles done!')
-    );
-    this.documentsService.retrieveADocument('877458db-9425-3cbc-8daf-2574ea07f162').subscribe(
-      doc => console.log(doc.title),
-      error => console.log(error),
-      () => console.log('retrieveADocument done!')
-    );
     this.folderTreeService.initialize();
   }
 
