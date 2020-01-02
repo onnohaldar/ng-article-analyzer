@@ -24,6 +24,8 @@ interface MendeleyFoldersParams {
   providedIn: 'root'
 })
 export class NgMendeleyFoldersService {
+  private readonly foldersPath = 'folders';
+  private readonly folderAccept = 'application/vnd.mendeley-folder.1+json';
 
   constructor(private service: NgMendeleyService) { }
 
@@ -31,7 +33,7 @@ export class NgMendeleyFoldersService {
    * Mendely API method: <https://dev.mendeley.com/methods/#list-all-folders>
    */
   listAllFolders(params?: MendeleyFoldersParams) {
-    return this.service.get<MendeleyFolder[]>('folders', 'folder.1+json', undefined, params);
+    return this.service.get<MendeleyFolder[]>(this.foldersPath, this.folderAccept, undefined, params);
   }
 
 }

@@ -26,20 +26,19 @@ export class NgMendeleyService {
   }
 
   /**
-   * Mendeley Rest Api GET-method
+   * Mendeley Rest Api: GET-method
    */
-  get<T>(methodPath: string, returnType: string, id?: string, params?: {}) {
+  get<T>(methodPath: string, accept?: string, id?: string, params?: {}) {
     return this.http.get<T>(this.buildUrl(methodPath, id),
       { headers: {
         Authorization: this.authorizationService.authToken,
-        Accept: 'application/vnd.mendeley-' + returnType
+        Accept: accept
       },
       params });
   }
 
   /**
-   * Mendely API method
-   * @see <https://dev.mendeley.com/methods/#retrieve-all-user-roles>
+   * Mendely API method: <https://dev.mendeley.com/methods/#retrieve-all-user-roles>
    */
   retrieveAllUserRoles() {
     return this.get<MendeleyUserRole[]>('user_roles', 'user-role.1+json');

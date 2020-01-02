@@ -26,11 +26,13 @@ export interface MendeleyDocument {
   providedIn: 'root'
 })
 export class NgMendeleyDocumentsService {
+  private readonly documentPath = 'documents';
+  private readonly documentAccept = 'application/vnd.mendeley-document.1+json';
 
   constructor(private service: NgMendeleyService) { }
 
   private get<T extends MendeleyDocument | MendeleyDocument[]>(id?: string, params?: MendeleyDocumentParams) {
-    return this.service.get<T>('documents', 'document.1+json', id, params);
+    return this.service.get<T>(this.documentPath, this.documentAccept, id, params);
   }
 
   /**
