@@ -10,6 +10,7 @@ import { NgMendeleyFoldersService } from './ng-mendeley-folders.service';
 import { NgMendeleyDocumentsService } from './ng-mendeley-documents.service';
 
 @NgModule({
+  imports: [HttpClientModule],
   providers: [
     HttpClientModule,
     NgMendeleyConfigService,

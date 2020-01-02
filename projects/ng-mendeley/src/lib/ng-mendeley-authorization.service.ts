@@ -1,12 +1,12 @@
 // Angular
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 // UUID
 import { v4 as uuid } from 'uuid';
 
 // Library
 import { NgMendeleyConfigService } from './ng-mendeley-config.service';
-import { NgMendeleyService } from './ng-mendeley.service';
 
 interface AuthParms {
   clientId?: string;
@@ -32,8 +32,8 @@ export class NgMendeleyAuthorizationService {
   };
 
   constructor(
-    private config: NgMendeleyConfigService,
-    private service: NgMendeleyService) { }
+    private http: HttpClient,
+    private config: NgMendeleyConfigService) { }
 
   setAuthToken() {
     this.config.authToken = 'Bearer ' + this.authParms.accessToken;
@@ -52,6 +52,7 @@ export class NgMendeleyAuthorizationService {
     this.authParms.secret = secret;
     this.authParms.state = uuid();
     // create auth url
+    /*
     return this.service.get<any>(this.config.authorizePath, undefined, undefined, {
       client_id: this.authParms.clientId,
       redirect_uri: this.authParms.redirectUri,
@@ -59,6 +60,17 @@ export class NgMendeleyAuthorizationService {
       scope: this.authParms.scope,
       state: this.authParms.state
     });
+    */
+    this.http.get(this.config.authorizePath, {
+    params: {
+      client_id: this.authParms.clientId,
+      redirect_uri: this.authParms.redirectUri,
+      response_type: this.authParms.responseType,
+      scope: this.authParms.scope,
+      state: this.authParms.state
+      },
+      responseType: 'text'
+   });
   }
 
 }

@@ -26,7 +26,7 @@ export class NgMendeleyService {
   /**
    * Mendeley Rest Api: GET-method
    */
-  get<T>(methodPath: string, accept?: string, id?: string, params?: {}) {
+  get<T>(methodPath: string, accept: string = '*/*', id?: string, params?: {}) {
     return this.http.get<T>(this.buildUrl(methodPath, id),
       { headers: {
         Authorization: this.config.authToken,
