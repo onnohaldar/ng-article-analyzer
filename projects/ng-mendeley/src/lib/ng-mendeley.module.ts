@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Library
 import { NgMendeleyService } from './ng-mendeley.service';
+import { NgMendeleyAuthorizationService } from './ng-mendeley-authorization.service';
 import { NgMendeleyFoldersService } from './ng-mendeley-folders.service';
 import { NgMendeleyDocumentsService } from './ng-mendeley-documents.service';
 
@@ -11,6 +12,7 @@ import { NgMendeleyDocumentsService } from './ng-mendeley-documents.service';
   providers: [
     HttpClientModule,
     NgMendeleyService,
+    NgMendeleyAuthorizationService,
     NgMendeleyFoldersService,
     NgMendeleyDocumentsService
   ]
