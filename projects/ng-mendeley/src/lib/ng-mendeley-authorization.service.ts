@@ -59,9 +59,7 @@ export class NgMendeleyAuthorizationService {
       response_type: this.authParms.responseType,
       scope: this.authParms.scope,
       state: this.authParms.state
-      },
-      responseType: 'json',
-      withCredentials: true
+      }
    });
   }
 
