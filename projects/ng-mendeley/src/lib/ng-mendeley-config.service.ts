@@ -25,4 +25,11 @@ export class NgMendeleyConfigService {
   authToken?: string;
 
   constructor() { }
+
+  buildMethodEndPointUrl(methodPath: string, id?: string) {
+    let methodEndPointUrl = this.apiEndPointUrl + '/' + methodPath;
+    if (id) { methodEndPointUrl += '/' + id; }
+    return methodEndPointUrl;
+  }
+
 }

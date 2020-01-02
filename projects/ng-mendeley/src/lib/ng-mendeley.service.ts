@@ -17,17 +17,11 @@ export class NgMendeleyService {
     private config: NgMendeleyConfigService
   ) { }
 
-  buildUrl(methodPath: string, id?: string) {
-    let methodEndPointUrl = this.config.apiEndPointUrl + '/' + methodPath;
-    if (id) { methodEndPointUrl += '/' + id; }
-    return methodEndPointUrl;
-  }
-
   /**
    * Mendeley Rest Api: GET-method
    */
   get<T>(methodPath: string, accept: string = '*/*', id?: string, params?: {}) {
-    return this.http.get<T>(this.buildUrl(methodPath, id),
+    return this.http.get<T>(this.config.buildMethodEndPointUrl(methodPath, id),
       { headers: {
         Authorization: this.config.authToken,
         Accept: accept

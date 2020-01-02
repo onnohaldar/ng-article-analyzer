@@ -61,7 +61,7 @@ export class NgMendeleyAuthorizationService {
       state: this.authParms.state
     });
     */
-    this.http.get(this.config.authorizePath, {
+    return this.http.get(this.config.buildMethodEndPointUrl(this.config.authorizePath), {
     params: {
       client_id: this.authParms.clientId,
       redirect_uri: this.authParms.redirectUri,
