@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Libraries
+import { NgMendeleyConfigService } from './ng-mendeley-config.service';
 import { NgMendeleyService } from './ng-mendeley.service';
 
 /**
@@ -24,16 +25,16 @@ interface MendeleyFoldersParams {
   providedIn: 'root'
 })
 export class NgMendeleyFoldersService {
-  private readonly foldersPath = 'folders';
-  private readonly folderAccept = 'application/vnd.mendeley-folder.1+json';
 
-  constructor(private service: NgMendeleyService) { }
+  constructor(
+    private config: NgMendeleyConfigService,
+    private service: NgMendeleyService) { }
 
   /**
    * Mendely API method: <https://dev.mendeley.com/methods/#list-all-folders>
    */
   listAllFolders(params?: MendeleyFoldersParams) {
-    return this.service.get<MendeleyFolder[]>(this.foldersPath, this.folderAccept, undefined, params);
+    return this.service.get<MendeleyFolder[]>(this.config.foldersPath, this.config.folderAccept, undefined, params);
   }
 
 }

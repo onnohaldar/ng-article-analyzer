@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { v4 as uuid } from 'uuid';
 
 // Library
+import { NgMendeleyConfigService } from './ng-mendeley-config.service';
 import { NgMendeleyService } from './ng-mendeley.service';
 
 interface AuthParms {
@@ -34,10 +35,12 @@ export class NgMendeleyAuthorizationService {
     scope: 'all'
   };
 
-  constructor(private service: NgMendeleyService) { }
+  constructor(
+    private config: NgMendeleyConfigService,
+    private service: NgMendeleyService) { }
 
-  get authToken() {
-    return 'Bearer ' + this.authParms.accessToken;
+  setAuthToken() {
+    this.config.authToken = 'Bearer ' + this.authParms.accessToken;
   }
 
   /**

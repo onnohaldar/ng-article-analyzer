@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 
 // Libraries
+import { NgMendeleyConfigService } from './ng-mendeley-config.service';
 import { NgMendeleyService } from './ng-mendeley.service';
 
 interface MendeleyDocumentParams { view: 'bib' | 'client' | 'tags' | 'patent' | 'all'; }
@@ -26,13 +27,13 @@ export interface MendeleyDocument {
   providedIn: 'root'
 })
 export class NgMendeleyDocumentsService {
-  private readonly documentPath = 'documents';
-  private readonly documentAccept = 'application/vnd.mendeley-document.1+json';
 
-  constructor(private service: NgMendeleyService) { }
+  constructor(
+    private config: NgMendeleyConfigService,
+    private service: NgMendeleyService) { }
 
   private get<T extends MendeleyDocument | MendeleyDocument[]>(id?: string, params?: MendeleyDocumentParams) {
-    return this.service.get<T>(this.documentPath, this.documentAccept, id, params);
+    return this.service.get<T>(this.config.documentPath, this.config.documentAccept, id, params);
   }
 
   /**

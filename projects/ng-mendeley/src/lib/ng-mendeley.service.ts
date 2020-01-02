@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 // Library
-import { NgMendeleyConfigService } from './ng-mendeley-config.service';
-import { NgMendeleyAuthorizationService } from './ng-mendeley-authorization.service';
-export interface MendeleyUserRole { description: string; }
+import { NgMendeleyConfigService, MendeleyUserRole } from './ng-mendeley-config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +12,7 @@ export class NgMendeleyService {
 
   constructor(
     private http: HttpClient,
-    private config: NgMendeleyConfigService,
-    private authorization: NgMendeleyAuthorizationService
+    private config: NgMendeleyConfigService
   ) { }
 
   buildUrl(methodPath: string, id?: string) {
@@ -30,7 +27,7 @@ export class NgMendeleyService {
   get<T>(methodPath: string, accept?: string, id?: string, params?: {}) {
     return this.http.get<T>(this.buildUrl(methodPath, id),
       { headers: {
-        Authorization: this.authorization.authToken,
+        Authorization: this.config.authToken,
         Accept: accept
       },
       params });
