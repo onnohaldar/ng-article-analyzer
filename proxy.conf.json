@@ -1,8 +1,11 @@
 {
-  "/api-mendeley/*": {
+  "/api-mendeley": {
     "target": "https://api.mendeley.com",
     "secure": false,
-    "logLevel": "debug"  
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api-mendeley": ""
+    }
   },
   "changeOrigin": true
 }

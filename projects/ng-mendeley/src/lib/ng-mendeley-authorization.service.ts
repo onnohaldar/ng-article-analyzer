@@ -52,15 +52,6 @@ export class NgMendeleyAuthorizationService {
     this.authParms.secret = secret;
     this.authParms.state = uuid();
     // create auth url
-    /*
-    return this.service.get<any>(this.config.authorizePath, undefined, undefined, {
-      client_id: this.authParms.clientId,
-      redirect_uri: this.authParms.redirectUri,
-      response_type: this.authParms.responseType,
-      scope: this.authParms.scope,
-      state: this.authParms.state
-    });
-    */
     return this.http.get(this.config.buildMethodEndPointUrl(this.config.authorizePath), {
     params: {
       client_id: this.authParms.clientId,
@@ -69,7 +60,8 @@ export class NgMendeleyAuthorizationService {
       scope: this.authParms.scope,
       state: this.authParms.state
       },
-      responseType: 'json'
+      responseType: 'json',
+      withCredentials: true
    });
   }
 
