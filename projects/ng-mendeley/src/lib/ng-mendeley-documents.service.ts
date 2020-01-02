@@ -33,7 +33,7 @@ export class NgMendeleyDocumentsService {
     private service: NgMendeleyService) { }
 
   private get<T extends MendeleyDocument | MendeleyDocument[]>(id?: string, params?: MendeleyDocumentParams) {
-    return this.service.get<T>(this.config.documentPath, this.config.documentAccept, id, params);
+    return this.service.get<T>(this.config.documentsPath, this.config.documentAccept, id, params);
   }
 
   /**

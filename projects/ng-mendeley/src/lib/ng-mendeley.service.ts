@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 // Library
-import { NgMendeleyConfigService, MendeleyUserRole } from './ng-mendeley-config.service';
+import { NgMendeleyConfigService } from './ng-mendeley-config.service';
+
+export interface MendeleyUserRole { description: string; }
 
 @Injectable({
   providedIn: 'root'
