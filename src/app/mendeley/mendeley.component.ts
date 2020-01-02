@@ -47,6 +47,10 @@ export class MendeleyComponent implements OnInit {
         '7702',
         'http://localhost:4200/mendeley',
         'LxTAO6UEVWEk5LBK'
+      ).subscribe(
+        authPage => console.log('authPage', authPage),
+        error => console.log(error),
+        () => console.log('authorize done!')
       );
 
       // Initialize Folder Tree UI

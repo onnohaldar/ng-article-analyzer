@@ -53,7 +53,7 @@ export class NgMendeleyAuthorizationService {
     this.authParms.secret = secret;
     this.authParms.state = uuid();
     // create auth url
-    this.service.get<any>(this.authorizePath, undefined, undefined, {
+    return this.service.get<any>(this.authorizePath, undefined, undefined, {
       client_id: this.authParms.clientId,
       redirect_uri: this.authParms.redirectUri,
       response_type: this.authParms.responseType,
