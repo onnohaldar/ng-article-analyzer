@@ -10,10 +10,9 @@ export interface MendeleyUserRole { description: string; }
   providedIn: 'root'
 })
 export class NgMendeleyService {
-  /**
-   * Mendeley Rest Api EndPoint
-   */
-  readonly apiUrl = 'https://api.mendeley.com';
+  private readonly apiUrl = 'https://api.mendeley.com';
+  private readonly userRolesPath = 'user_roles';
+  private readonly userRoleAccept = 'user-role.1+json';
 
   constructor(
     private http: HttpClient,
@@ -41,7 +40,7 @@ export class NgMendeleyService {
    * Mendely API method: <https://dev.mendeley.com/methods/#retrieve-all-user-roles>
    */
   retrieveAllUserRoles() {
-    return this.get<MendeleyUserRole[]>('user_roles', 'user-role.1+json');
+    return this.get<MendeleyUserRole[]>(this.userRolesPath, this.userRoleAccept);
   }
 
 }
