@@ -5,31 +5,13 @@ import { Injectable } from '@angular/core';
 import { v4 as uuid } from 'uuid';
 
 // Library
-import { NgMendeleyConfigService } from './ng-mendeley-config.service';
+import { NgMendeleyConfigService, AuthParms } from './ng-mendeley-config.service';
 import { NgMendeleyService } from './ng-mendeley.service';
-
-interface AuthParms {
-  clientId?: string;
-  secret?: string;
-  redirectUri?: string;
-  responseType: string;
-  scope: string;
-  state?: string;
-  accessToken?: string;
-  refreshToken?: string;
-  clientSecret?: string;
-  tokenType?: string;
-  expires?: string;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class NgMendeleyAuthorizationService {
-  private readonly oauthPath = 'oauth';
-  private readonly authorizePath = this.oauthPath + '/' + 'authorize';
-  private readonly tokenPath = this.oauthPath + '/' + 'token';
-
   private authParms: AuthParms = {
     responseType: 'code',
     scope: 'all'
@@ -56,7 +38,7 @@ export class NgMendeleyAuthorizationService {
     this.authParms.secret = secret;
     this.authParms.state = uuid();
     // create auth url
-    return this.service.get<any>(this.authorizePath, undefined, undefined, {
+    return this.service.get<any>(this.config.authorizePath, undefined, undefined, {
       client_id: this.authParms.clientId,
       redirect_uri: this.authParms.redirectUri,
       response_type: this.authParms.responseType,
