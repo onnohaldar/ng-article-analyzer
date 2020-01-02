@@ -69,7 +69,7 @@ export class NgMendeleyAuthorizationService {
       scope: this.authParms.scope,
       state: this.authParms.state
       },
-      responseType: 'text'
+      responseType: 'json'
    });
   }
 

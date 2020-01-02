@@ -45,7 +45,7 @@ export class MendeleyComponent implements OnInit {
       // Initialize Mendeley API authorization
       this.authorizationService.authorize(
         '7702',
-        'http://localhost:4200/mendeley',
+        'http://localhost:4200',
         'LxTAO6UEVWEk5LBK'
       ).subscribe(
         authPage => console.log('authPage', authPage),

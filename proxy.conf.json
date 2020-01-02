@@ -1,11 +1,8 @@
 {
-  "/scholar/*": {
-    "target": "http://scholar.google.nl",
+  "/api-mendeley/*": {
+    "target": "https://api.mendeley.com",
     "secure": false,
-    "logLevel": "debug",
-    "changeOrigin": true,
-    "pathRewrite": {
-      "^/scholar": ""
-    }
-  }
+    "logLevel": "debug"  
+  },
+  "changeOrigin": true
 }

@@ -8,7 +8,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class NgMendeleyConfigService {
-  readonly apiEndPointUrl = 'https://api.mendeley.com';
+  // readonly apiEndPointUrl = 'https://api.mendeley.com';
+  readonly apiEndPointUrl = '/api-mendeley';
   readonly oauthPath = 'oauth';
   readonly authorizePath = this.oauthPath + '/' + 'authorize';
   readonly tokenPath = this.oauthPath + '/' + 'token';
